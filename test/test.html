@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Chat</title>
+    <style>
+        #chat-box {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        #name-container {
+            margin-bottom: 20px;
+        }
+        #chat-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="name-container">
+        <h2>Enter your name to join the chat:</h2>
+        <input type="text" id="username" placeholder="Your name">
+        <button onclick="joinChat()">Join Chat</button>
+    </div>
+
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="message" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        let socket;
+        
+        function joinChat() {
+            const username = document.getElementById('username').value.trim();
+            if (!username) {
+                alert('Please enter a name');
+                return;
+            }
+
+            // Connect to WebSocket with username as query parameter
+            socket = new WebSocket(`ws://localhost:8080/ws?name=${encodeURIComponent(username)}`);
+            
+            socket.onmessage = function(event) {
+                const message = JSON.parse(event.data);
+                const chatBox = document.getElementById('chat-box');
+                const messageText = message.Sender ? 
+                    `${message.Sender}: ${message.Content}` : 
+                    message.Content;
+                chatBox.innerHTML += `<div>${messageText}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            };
+
+            // Show chat container and hide name container
+            document.getElementById('name-container').style.display = 'none';
+            document.getElementById('chat-container').style.display = 'block';
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('message');
+            const message = messageInput.value.trim();
+            if (message && socket) {
+                socket.send(message);
+                messageInput.value = '';
+            }
+        }
+
+        // Add Enter key support for sending messages
+        document.getElementById('message').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Add Enter key support for joining chat
+        document.getElementById('username').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                joinChat();
+            }
+        });
+    </script>
+</body>
+</html>

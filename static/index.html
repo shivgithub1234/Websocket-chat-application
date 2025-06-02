@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>WebSocket Chat</title>
@@ -10,6 +10,47 @@
         <input type="text" id="messageInput" placeholder="Type a message..." />
         <button onclick="sendMessage()">Send</button>
     </div>
+    <script src="script.js"></script>
+</body>
+</html>
+ -->
+
+
+
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Enhanced WebSocket Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Name input modal -->
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <h2>Join the Chat</h2>
+            <input type="text" id="nameInput" placeholder="Enter your name..." maxlength="20" />
+            <div id="nameError" class="error-message"></div>
+            <button id="joinBtn" onclick="setName()">Join Chat</button>
+        </div>
+    </div>
+
+    <!-- Chat interface -->
+    <div id="chatContainer" style="display: none;">
+        <div id="chatHeader">
+            <h2> Private Chat Room</h2>
+            <div class="header-info">
+                <span id="currentName"></span>
+                <button id="changeNameBtn" onclick="showNameModal()">Change Name</button>
+            </div>
+        </div>
+        <div id="messages"></div>
+        <div id="input-container">
+            <input type="text" id="messageInput" placeholder="Type your message..." />
+            <button onclick="sendMessage()" id="sendBtn">Send</button>
+        </div>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
