@@ -1,6 +1,7 @@
 # WebSocket Chat Application
 
 A real-time chat application built with Go backend and modern JavaScript frontend, featuring beautiful UI design and seamless WebSocket communication.
+A huge thanks to this blog which helped me get through its complexity: https://www.thepolyglotdeveloper.com/2016/12/create-real-time-chat-app-golang-angular-2-websockets/
 
 ## 🚀 Features
 
